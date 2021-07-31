@@ -13,7 +13,7 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/contextTextView"
+        android:id="@+id/contentsTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/titleTextView"
