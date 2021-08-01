@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -31,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "버튼 클릭", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "글쓰기 화면으로 전환", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), PostActivity.class);
+                startActivity(intent);
             }
         });
     }
