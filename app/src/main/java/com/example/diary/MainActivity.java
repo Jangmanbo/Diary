@@ -3,6 +3,7 @@ package com.example.diary;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +12,14 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     PostAdapter adapter;
     FloatingActionButton btn;
-
+    List<Post> items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,5 +41,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        final AppDatabase db= Room.databaseBuilder(this, AppDatabase.class, "Post-db").allowMainThreadQueries().build();
+        items=db.postDao().getAll();
+        adapter.setItems(items);
     }
 }

@@ -11,9 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
-    ArrayList<PostItem> items=new ArrayList<> ();
+    List<Post> items;
 
     @NonNull
     @Override
@@ -26,7 +27,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull PostAdapter.ViewHolder holder, int position) {
+        holder.setItem(items.get(position));
+    }
 
+    public void setItems(List<Post> items) {
+        this.items=items;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -42,10 +48,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             contents=itemView.findViewById(R.id.contentsTextView);
             date=itemView.findViewById(R.id.dateTextView);
         }
-        public void setItem(PostItem item) {
+        public void setItem(Post item) {
             title.setText(item.getTitle());
             contents.setText(item.getContents());
-            date.setText((new SimpleDateFormat("yyyy-MM-dd")).format(item.getDate()));
+            date.setText(item.getDate());
         }
     }
 }
