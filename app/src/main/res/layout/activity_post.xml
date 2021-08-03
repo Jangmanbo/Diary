@@ -5,19 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="10dp"
     tools:context=".PostActivity">
 
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/post_textview"
+        android:padding="5dp"
         android:text="TextView"
         android:textSize="18sp" />
 
     <TextView
         android:id="@+id/contentsTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/post_textview"
+        android:padding="5dp"
         android:text="TextView"
         android:textSize="18sp" />
 </LinearLayout>
