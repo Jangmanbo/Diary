@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         btn = findViewById(R.id.floatingActionButton);
         recyclerView = findViewById(R.id.recyclerView);
 
-        adapter=new PostAdapter();
+        adapter=new PostAdapter(getApplicationContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "글쓰기 화면으로 전환", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), PostActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AddPostActivity.class);
                 startActivity(intent);
             }
         });

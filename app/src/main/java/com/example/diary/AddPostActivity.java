@@ -11,14 +11,14 @@ import android.widget.EditText;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class PostActivity extends AppCompatActivity {
+public class AddPostActivity extends AppCompatActivity {
     EditText title, contents;
     Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post);
+        setContentView(R.layout.activity_addpost);
 
         final AppDatabase db= Room.databaseBuilder(this, AppDatabase.class, "Post-db").allowMainThreadQueries().build();
 
@@ -28,7 +28,7 @@ public class PostActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db.postDao().insert(new Post(title.getText().toString(), contents.getText().toString(), (new SimpleDateFormat("yyyy-MM-dd")).format(new Date(System.currentTimeMillis()))));
+                db.postDao().insert(new Post(title.getText().toString(), contents.getText().toString(), (new SimpleDateFormat("yyyy-MM-dd HH:mm")).format(new Date(System.currentTimeMillis()))));
                 finish();
             }
         });

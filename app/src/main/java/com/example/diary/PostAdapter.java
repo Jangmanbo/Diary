@@ -1,6 +1,8 @@
 package com.example.diary;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +11,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     List<Post> items;
+    Context context;
+
+    public PostAdapter(Context context) {
+        this.context=context;
+    }
 
     @NonNull
     @Override
@@ -47,6 +52,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             title=itemView.findViewById(R.id.titleTextView);
             contents=itemView.findViewById(R.id.contentsTextView);
             date=itemView.findViewById(R.id.dateTextView);
+
+            itemView.setClickable(true);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=getBindingAdapterPosition();
+                    if (position!=RecyclerView.NO_POSITION) {
+                        Intent intent= new Intent(context, PostActivity.class);
+                        intent.putExtra("post", (Parcelable) items.get(position)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+                }
+            });
         }
         public void setItem(Post item) {
             title.setText(item.getTitle());

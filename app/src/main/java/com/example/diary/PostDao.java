@@ -5,8 +5,6 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Dao
@@ -20,7 +18,7 @@ public interface PostDao {
     @Delete
     void delete(Post post);
 
-    @Query("SELECT * FROM postTable")
+    @Query("SELECT * FROM postTable ORDER BY date DESC")
     List<Post> getAll();
 
     @Query("DELETE FROM postTable")
