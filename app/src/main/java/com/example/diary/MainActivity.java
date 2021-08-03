@@ -16,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -27,11 +28,24 @@ public class MainActivity extends AppCompatActivity {
     boolean deleteMode = false;
     long backKeyPressedTime = 0;
     Toast toast;
+    Snackbar snackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        snackbar = Snackbar
+                .make(findViewById(R.id.mainLayout), "게시글을 삭제하시겠습니까?", Snackbar.LENGTH_INDEFINITE)
+                // 스낵바 Action 설정("표시할 텍스트", onClick)
+                .setAction("삭제", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // 스낵바의 OK 클릭시 실행할 작업
+                        Toast.makeText(view.getContext(), "삭제하기 클릭", Toast.LENGTH_SHORT).show();
+                        hideCheckBox();
+                    }
+                });
 
         btn = findViewById(R.id.floatingActionButton);
         recyclerView = findViewById(R.id.recyclerView);
@@ -69,10 +83,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.delete: //게시글마다 체크박스 보이게
+            case R.id.delete:
+                //게시글마다 체크박스 보이게
                 deleteMode = true;
                 adapter.setDeleteMode(true);
                 adapter.notifyDataSetChanged();
+                snackbar.show();
                 break;
             default:
                 break;
@@ -82,10 +98,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (deleteMode) { //삭제하기 버튼 클릭 상태일 경우 체크박스 안보이게 변경
-            adapter.setDeleteMode(false);
-            adapter.notifyDataSetChanged();
-            deleteMode = false;
+        if (deleteMode) { //삭제하기 버튼 클릭 상태
+            hideCheckBox(); //체크박스 숨기기
+            snackbar.dismiss(); //스낵바 삭제
         }
         else {
             // 마지막으로 뒤로 가기 버튼을 눌렀던 시간에 2.5초를 더해 현재 시간과 비교 후
@@ -104,5 +119,11 @@ public class MainActivity extends AppCompatActivity {
                 super.onBackPressed();
             }
         }
+    }
+
+    private void hideCheckBox() {
+        adapter.setDeleteMode(false);
+        adapter.notifyDataSetChanged();
+        deleteMode = false;
     }
 }
