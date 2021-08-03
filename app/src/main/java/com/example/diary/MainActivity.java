@@ -40,15 +40,20 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
+        //글쓰기 화면으로 전환
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toast.makeText(MainActivity.this, "글쓰기 화면으로 전환", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), AddPostActivity.class);
                 startActivity(intent);
             }
         });
+    }
 
+    //화면 보일 때마다 갱신
+    @Override
+    protected void onResume() {
+        super.onResume();
         final AppDatabase db= Room.databaseBuilder(this, AppDatabase.class, "Post-db").allowMainThreadQueries().build();
         items=db.postDao().getAll();
         adapter.setItems(items);
@@ -64,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.delete:
+            case R.id.delete: //게시글마다 체크박스 보이게
                 deleteMode = true;
                 adapter.setDeleteMode(true);
                 adapter.notifyDataSetChanged();
@@ -77,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (deleteMode) {
+        if (deleteMode) { //삭제하기 버튼 클릭 상태일 경우 체크박스 안보이게 변경
             adapter.setDeleteMode(false);
             adapter.notifyDataSetChanged();
             deleteMode = false;
