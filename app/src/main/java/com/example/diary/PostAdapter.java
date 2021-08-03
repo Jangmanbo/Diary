@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import java.util.List;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     List<Post> items;
     Context context;
+    boolean deleteMode = false;
 
     public PostAdapter(Context context) {
         this.context=context;
@@ -40,6 +42,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         notifyDataSetChanged();
     }
 
+    public void setDeleteMode(boolean deleteMode) {
+        this.deleteMode = deleteMode;
+    }
+
     @Override
     public int getItemCount() {
         return items.size();
@@ -47,11 +53,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, contents, date;
+        CheckBox checkBox;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title=itemView.findViewById(R.id.titleTextView);
             contents=itemView.findViewById(R.id.contentsTextView);
             date=itemView.findViewById(R.id.dateTextView);
+            checkBox=itemView.findViewById(R.id.checkBox);
 
             itemView.setClickable(true);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +78,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             title.setText(item.getTitle());
             contents.setText(item.getContents());
             date.setText(item.getDate());
+            if (deleteMode) checkBox.setVisibility(View.VISIBLE);
+            else checkBox.setVisibility(View.GONE);
         }
     }
 }

@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
     PostAdapter adapter;
     FloatingActionButton btn;
     List<Post> items;
+    boolean deleteMode = false;
+    long backKeyPressedTime = 0;
+    Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "글쓰기 화면으로 전환", Toast.LENGTH_SHORT).show();
+                toast.makeText(MainActivity.this, "글쓰기 화면으로 전환", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), AddPostActivity.class);
                 startActivity(intent);
             }
@@ -61,11 +65,39 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.delete:
-                Toast.makeText(getApplicationContext(), "삭제하기 클릭", Toast.LENGTH_SHORT).show();
+                deleteMode = true;
+                adapter.setDeleteMode(true);
+                adapter.notifyDataSetChanged();
                 break;
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (deleteMode) {
+            adapter.setDeleteMode(false);
+            adapter.notifyDataSetChanged();
+            deleteMode = false;
+        }
+        else {
+            // 마지막으로 뒤로 가기 버튼을 눌렀던 시간에 2.5초를 더해 현재 시간과 비교 후
+            // 마지막으로 뒤로 가기 버튼을 눌렀던 시간이 2.5초가 지났으면 Toast 출력
+            // 2500 milliseconds = 2.5 seconds
+            if (System.currentTimeMillis() > backKeyPressedTime + 2500) {
+                backKeyPressedTime = System.currentTimeMillis();
+                toast = Toast.makeText(this, "뒤로 가기 버튼을 한 번 더 누르면 종료됩니다.", Toast.LENGTH_LONG);
+                toast.show();
+                return;
+            }
+            // 마지막으로 뒤로 가기 버튼을 눌렀던 시간에 2.5초를 더해 현재 시간과 비교 후
+            // 마지막으로 뒤로 가기 버튼을 눌렀던 시간이 2.5초가 지나지 않았으면 종료
+            if (System.currentTimeMillis() <= backKeyPressedTime + 2500) {
+                toast.cancel();
+                super.onBackPressed();
+            }
+        }
     }
 }
