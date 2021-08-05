@@ -3,10 +3,12 @@ package com.example.diary;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -54,7 +56,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, contents, date;
         CheckBox checkBox;
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             title=itemView.findViewById(R.id.titleTextView);
             contents=itemView.findViewById(R.id.contentsTextView);
@@ -73,6 +75,39 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                     }
                 }
             });
+
+
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    Log.e("PostAdapter", "onCheckChanged method");
+                    if (checkBox.isChecked()) {
+                        Log.e("PostAdapter", title.getText()+" : checked");
+                        itemView.setSelected(true);
+                    }
+                    else {
+                        Log.e("PostAdapter", title.getText()+" : unchecked");
+                        itemView.setSelected(false);
+                    }
+                }
+            });
+            /*
+            checkBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.e("PostAdapter", "onclick method");
+                    if (checkBox.isChecked()) {
+                        Log.e("PostAdapter", title.getText()+" : checked");
+                        itemView.setSelected(true);
+                    }
+                    else {
+                        Log.e("PostAdapter", title.getText()+" : unchecked");
+                        itemView.setSelected(false);
+                    }
+                }
+            });
+            */
+
         }
         public void setItem(Post item) {
             title.setText(item.getTitle());

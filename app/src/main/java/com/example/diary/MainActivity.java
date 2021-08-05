@@ -8,6 +8,7 @@ import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,9 +42,18 @@ public class MainActivity extends AppCompatActivity {
                 .setAction("삭제", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        // 스낵바의 OK 클릭시 실행할 작업
-                        Toast.makeText(view.getContext(), "삭제하기 클릭", Toast.LENGTH_SHORT).show();
+                        // 스낵바의 삭제 클릭시 실행할 작업
                         hideCheckBox();
+                        final AppDatabase db= Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "Post-db").allowMainThreadQueries().build();
+                        for (Post post:items) {
+                            if (post.getSelected()) {
+                                Log.e("MainActivity", post.getTitle()+" : delete");
+                                db.postDao().delete(post);
+                            }
+                            else {
+                                Log.e("MainActivity", post.getTitle()+" : don't delete");
+                            }
+                        }
                     }
                 });
 

@@ -4,12 +4,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "postTable")
 public class Post implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     private int id;
+    @Ignore
+    private boolean selected = false;
     private String title, contents, date;
 
     public Post(String title, String contents, String date) {
@@ -38,6 +41,8 @@ public class Post implements Parcelable {
         return id;
     }
 
+    public boolean getSelected() { return selected; }
+
     public String getTitle() {
         return title;
     }
@@ -53,6 +58,8 @@ public class Post implements Parcelable {
     public void setId(int id) {
         this.id = id;
     }
+
+    public void setSelected(boolean selected) { this.selected = selected; }
 
     public void setTitle(String title) {
         this.title = title;
