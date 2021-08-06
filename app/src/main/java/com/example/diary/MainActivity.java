@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,15 +46,20 @@ public class MainActivity extends AppCompatActivity {
                         // 스낵바의 삭제 클릭시 실행할 작업
                         hideCheckBox();
                         final AppDatabase db= Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "Post-db").allowMainThreadQueries().build();
-                        for (Post post:items) {
+                        ArrayList<Post> deleteItems = adapter.getDeleteItems();
+                        if (deleteItems.isEmpty()) {
+                            Log.e("MainActivity", "deleteItems array is empty");
+                        }
+                        for (Post post : deleteItems) {
                             if (post.getSelected()) {
-                                Log.e("MainActivity", post.getTitle()+" : delete");
                                 db.postDao().delete(post);
                             }
                             else {
                                 Log.e("MainActivity", post.getTitle()+" : don't delete");
                             }
                         }
+                        //리사이클러뷰 갱신
+                        adapter.notifyDataSetChanged();
                     }
                 });
 

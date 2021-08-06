@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
@@ -53,6 +54,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         return items.size();
     }
 
+    public ArrayList<Post> getDeleteItems() {
+        ArrayList<Post> deleteItems = new ArrayList<> ();
+        for (Post post : items) {
+            if (post.getSelected()) {
+                deleteItems.add(post);
+            }
+        }
+        return deleteItems;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, contents, date;
         CheckBox checkBox;
@@ -81,13 +92,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     Log.e("PostAdapter", "onCheckChanged method");
+                    int position=getBindingAdapterPosition();
                     if (checkBox.isChecked()) {
                         Log.e("PostAdapter", title.getText()+" : checked");
-                        itemView.setSelected(true);
+                        items.get(position).setSelected(true);
                     }
                     else {
                         Log.e("PostAdapter", title.getText()+" : unchecked");
-                        itemView.setSelected(false);
+                        items.get(position).setSelected(false);
                     }
                 }
             });
