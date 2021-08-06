@@ -59,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                         //리사이클러뷰 갱신
-                        adapter.notifyDataSetChanged();
+                        items=db.postDao().getAll();
+                        adapter.setItems(items);
                     }
                 });
 
