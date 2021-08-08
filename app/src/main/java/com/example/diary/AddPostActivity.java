@@ -25,6 +25,7 @@ public class AddPostActivity extends AppCompatActivity {
         title=findViewById(R.id.titleEditText);
         contents=findViewById(R.id.contentsEditText);
         btn = findViewById(R.id.button);
+        //버튼 누르면 db에 저장
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

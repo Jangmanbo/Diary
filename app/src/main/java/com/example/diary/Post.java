@@ -11,6 +11,7 @@ import androidx.room.PrimaryKey;
 public class Post implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     private int id;
+    //db에 저장 X
     @Ignore
     private boolean selected = false;
     private String title, contents, date;

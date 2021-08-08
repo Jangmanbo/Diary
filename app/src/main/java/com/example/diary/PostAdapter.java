@@ -103,22 +103,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                     }
                 }
             });
-            /*
-            checkBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.e("PostAdapter", "onclick method");
-                    if (checkBox.isChecked()) {
-                        Log.e("PostAdapter", title.getText()+" : checked");
-                        itemView.setSelected(true);
-                    }
-                    else {
-                        Log.e("PostAdapter", title.getText()+" : unchecked");
-                        itemView.setSelected(false);
-                    }
-                }
-            });
-            */
 
         }
         public void setItem(Post item) {

@@ -44,19 +44,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         // 스낵바의 삭제 클릭시 실행할 작업
-                        hideCheckBox();
+                        hideCheckBox(); //체크박스 숨기기
                         final AppDatabase db= Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "Post-db").allowMainThreadQueries().build();
                         ArrayList<Post> deleteItems = adapter.getDeleteItems();
-                        if (deleteItems.isEmpty()) {
-                            Log.e("MainActivity", "deleteItems array is empty");
-                        }
                         for (Post post : deleteItems) {
-                            if (post.getSelected()) {
-                                db.postDao().delete(post);
-                            }
-                            else {
-                                Log.e("MainActivity", post.getTitle()+" : don't delete");
-                            }
+                            db.postDao().delete(post);
                         }
                         //리사이클러뷰 갱신
                         items=db.postDao().getAll();
@@ -81,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //화면 보일 때마다 갱신
+    //화면 보일 때마다 리사이클러뷰 갱신
     @Override
     protected void onResume() {
         super.onResume();
@@ -100,8 +92,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.delete:
-                //게시글마다 체크박스 보이게
+            case R.id.delete: //삭제하기 클릭 -> 게시글마다 체크박스 보이게
                 deleteMode = true;
                 adapter.setDeleteMode(true);
                 adapter.notifyDataSetChanged();
@@ -115,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (deleteMode) { //삭제하기 버튼 클릭 상태
+        if (deleteMode) { //삭제하기 모드였을 경우
             hideCheckBox(); //체크박스 숨기기
             snackbar.dismiss(); //스낵바 삭제
         }
@@ -138,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //게시글마다 체크박스 숨기기
     private void hideCheckBox() {
         adapter.setDeleteMode(false);
         adapter.notifyDataSetChanged();
