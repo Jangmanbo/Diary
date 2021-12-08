@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     android:orientation="vertical"
     android:padding="10dp"
     tools:context=".PostActivity">
@@ -38,8 +39,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
+            android:background="@null"
             android:max="10"
-            android:progress="5" />
+            android:progress="5"
+            android:progressDrawable="@drawable/mood_seekbar"
+            android:thumb="@drawable/mood_seekbar_thumb" />
 
     </LinearLayout>
 
