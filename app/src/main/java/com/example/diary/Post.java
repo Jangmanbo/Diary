@@ -15,10 +15,12 @@ public class Post implements Parcelable {
     @Ignore
     private boolean selected = false;
     private String title, contents, date;
+    private int mood;
 
-    public Post(String title, String contents, String date) {
+    public Post(String title, String contents, int mood, String date) {
         this.title=title;
         this.contents=contents;
+        this.mood=mood;
         this.date=date;
     }
 
@@ -52,6 +54,10 @@ public class Post implements Parcelable {
         return contents;
     }
 
+    public int getMood() {
+        return mood;
+    }
+
     public String getDate() {
         return date;
     }
@@ -70,6 +76,10 @@ public class Post implements Parcelable {
         this.contents = contents;
     }
 
+    public void setMood(int mood) {
+        this.mood = mood;
+    }
+
     public void setDate(String date) {
         this.date = date;
     }
@@ -84,6 +94,7 @@ public class Post implements Parcelable {
         parcel.writeInt(id);
         parcel.writeString(title);
         parcel.writeString(contents);
+        parcel.writeInt(mood);
         parcel.writeString(date);
     }
 
@@ -91,6 +102,7 @@ public class Post implements Parcelable {
         id=parcel.readInt();
         title=parcel.readString();
         contents=parcel.readString();
+        mood=parcel.readInt();
         date=parcel.readString();
     }
 

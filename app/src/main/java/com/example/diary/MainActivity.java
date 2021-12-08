@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    AppDatabase db;
     RecyclerView recyclerView;
     PostAdapter adapter;
     FloatingActionButton btn;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         // 스낵바의 삭제 클릭시 실행할 작업
                         hideCheckBox(); //체크박스 숨기기
-                        final AppDatabase db= Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "Post-db").allowMainThreadQueries().build();
+                        db= AppDatabase.getInstance(getApplicationContext());
                         ArrayList<Post> deleteItems = adapter.getDeleteItems();
                         for (Post post : deleteItems) {
                             db.postDao().delete(post);
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        final AppDatabase db= Room.databaseBuilder(this, AppDatabase.class, "Post-db").allowMainThreadQueries().build();
+        db= AppDatabase.getInstance(this);
         items=db.postDao().getAll();
         adapter.setItems(items);
     }
