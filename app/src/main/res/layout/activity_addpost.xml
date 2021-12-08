@@ -48,6 +48,37 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="음성으로 기록하기"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/recordBtn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="record"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/record" />
+
+    </LinearLayout>
+
     <EditText
         android:id="@+id/contentsEditText"
         android:layout_width="match_parent"
@@ -56,6 +87,7 @@
         android:layout_weight="1"
         android:background="@drawable/post_textview"
         android:ems="10"
+        android:gravity="top"
         android:hint="내용"
         android:inputType="textPersonName"
         android:lines="8"
@@ -63,7 +95,7 @@
         android:padding="5dp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/addPostBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="등록" />

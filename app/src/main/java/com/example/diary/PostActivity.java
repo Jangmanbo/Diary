@@ -1,9 +1,7 @@
 package com.example.diary;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +24,7 @@ public class PostActivity extends AppCompatActivity {
         contents=findViewById(R.id.contentsTextView);
         moodSeekBar=findViewById(R.id.moodSeekBar);
         faceImageView=findViewById(R.id.faceImageView);
-        btn=findViewById(R.id.button);
+        btn=findViewById(R.id.addPostBtn);
 
         //인텐트 객체를 통해 Post 객체 가져옴
         final Post post=getIntent().getParcelableExtra("post");
