@@ -44,32 +44,18 @@ public class AddPostActivity extends AppCompatActivity {
 
         db = AppDatabase.getInstance(this);
 
-        // 퍼미션 체크
-        if ( Build.VERSION.SDK_INT >= 23 ){
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.INTERNET,
-                            Manifest.permission.RECORD_AUDIO},PERMISSION);
-        }
-
-        //녹음하기 위해 intent 객체 생성
-        intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getPackageName());
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");
-
-
+        //기본 UI
         title=findViewById(R.id.titleEditText);
-        contents=findViewById(R.id.contentsEditText);
+        contents=findViewById(R.id.contentsTextView);
         addPostBtn = findViewById(R.id.addPostBtn);
-        recordBtn = findViewById(R.id.recordBtn);
-        recordTextView=findViewById(R.id.recordTextView);
+
+        //감정
         moodSeekBar=findViewById(R.id.moodSeekBar);
         faceImageView=findViewById(R.id.faceImageView);
 
-
-
-
-        addPostBtn.setOnClickListener(click);
-        recordBtn.setOnClickListener(click);
+        //녹음
+        recordBtn = findViewById(R.id.recordBtn);
+        recordTextView=findViewById(R.id.recordTextView);
 
 
         //seekbar가 움직이면
@@ -92,6 +78,17 @@ public class AddPostActivity extends AppCompatActivity {
 
             }
         });
+
+        CheckPermission();  //녹음 퍼미션 체크
+
+        //녹음하기 위해 intent 객체 생성
+        intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getPackageName());
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");
+
+        //버튼 클릭 이벤트 리스터 등록
+        addPostBtn.setOnClickListener(click);
+        recordBtn.setOnClickListener(click);
     }
 
     View.OnClickListener click = new View.OnClickListener() {
@@ -102,12 +99,13 @@ public class AddPostActivity extends AppCompatActivity {
                     db.postDao().insert(new Post(title.getText().toString(), contents.getText().toString(), moodSeekBar.getProgress(), (new SimpleDateFormat("yyyy-MM-dd HH:mm")).format(new Date(System.currentTimeMillis()))));
                     finish();
                     break;
+                //녹음 버튼
                 case R.id.recordBtn:
                     if (!recording) {   //녹음 시작
                         StartRecord();
                         Toast.makeText(getApplicationContext(), "지금부터 음성으로 기록합니다.", Toast.LENGTH_SHORT).show();
                     }
-                    else {
+                    else {  //이미 녹음 중이면 녹음 중지
                         StopRecord();
                     }
                     break;
@@ -225,5 +223,14 @@ public class AddPostActivity extends AppCompatActivity {
         recordTextView.setText("음성 녹음 시작");
         speechRecognizer.stopListening();
         Toast.makeText(getApplicationContext(), "음성 기록을 중지합니다.", Toast.LENGTH_SHORT).show();
+    }
+
+    // 퍼미션 체크
+    void CheckPermission() {
+        if ( Build.VERSION.SDK_INT >= 23 ){
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.INTERNET,
+                            Manifest.permission.RECORD_AUDIO},PERMISSION);
+        }
     }
 }

@@ -47,18 +47,54 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/recordTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="음성 녹음 시작"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/recordBtn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="record"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/start_record" />
+
+    </LinearLayout>
+
     <EditText
         android:id="@+id/contentsTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:layout_weight="1"
         android:background="@drawable/post_textview"
+        android:ems="10"
+        android:gravity="top"
         android:hint="내용"
-        android:padding="5dp"
-        android:textSize="18sp" />
+        android:inputType="textMultiLine"
+        android:lines="8"
+        android:maxLines="100"
+        android:padding="5dp" />
 
     <Button
-        android:id="@+id/addPostBtn"
+        android:id="@+id/modifyPostBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="수정" />
