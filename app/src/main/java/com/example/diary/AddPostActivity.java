@@ -104,19 +104,11 @@ public class AddPostActivity extends AppCompatActivity {
                     break;
                 case R.id.recordBtn:
                     if (!recording) {   //녹음 시작
-                        recording = true;
-                        recordBtn.setImageResource(R.drawable.stop_record);
-                        recordTextView.setText("음성 녹음 중지");
-                        speechRecognizer=SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
-                        speechRecognizer.setRecognitionListener(listener);
-                        speechRecognizer.startListening(intent);
+                        StartRecord();
                         Toast.makeText(getApplicationContext(), "지금부터 음성으로 기록합니다.", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        speechRecognizer.stopListening();
-                        recording = false;
-                        recordBtn.setImageResource(R.drawable.start_record);
-                        recordTextView.setText("음성 녹음 시작");
+                        StopRecord();
                     }
                     break;
                 default:
@@ -159,8 +151,9 @@ public class AddPostActivity extends AppCompatActivity {
                     message = "오디오 에러";
                     break;
                 case SpeechRecognizer.ERROR_CLIENT:
-                    message = "클라이언트 에러";
-                    break;
+                    //message = "클라이언트 에러";
+                    //stopListening을 호출하면 발생하는 에러
+                    return; //토스트 메세지 출력 X
                 case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
                     message = "퍼미션 없음";
                     break;
@@ -171,8 +164,12 @@ public class AddPostActivity extends AppCompatActivity {
                     message = "네트웍 타임아웃";
                     break;
                 case SpeechRecognizer.ERROR_NO_MATCH:
-                    message = "찾을 수 없음";
-                    break;
+                    //message = "찾을 수 없음";
+                    //녹음을 오래하거나(?) stopListening을 호출하면 발생하는 에러
+                    //speechRecognizer를 다시 생성하여 녹음 재개
+                    if (recording)
+                        StartRecord();
+                    return; //토스트 메세지 출력 X
                 case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:
                     message = "RECOGNIZER가 바쁨";
                     break;
@@ -212,4 +209,21 @@ public class AddPostActivity extends AppCompatActivity {
 
         }
     };
+
+    void StartRecord() {
+        recording = true;
+        recordBtn.setImageResource(R.drawable.stop_record);
+        recordTextView.setText("음성 녹음 중지");
+        speechRecognizer=SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
+        speechRecognizer.setRecognitionListener(listener);
+        speechRecognizer.startListening(intent);
+    }
+
+    void StopRecord() {
+        recording = false;
+        recordBtn.setImageResource(R.drawable.start_record);
+        recordTextView.setText("음성 녹음 시작");
+        speechRecognizer.stopListening();
+        Toast.makeText(getApplicationContext(), "음성 기록을 중지합니다.", Toast.LENGTH_SHORT).show();
+    }
 }
