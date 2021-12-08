@@ -109,6 +109,9 @@ public class MainActivity extends AppCompatActivity {
         if (deleteMode) { //삭제하기 모드였을 경우
             hideCheckBox(); //체크박스 숨기기
             snackbar.dismiss(); //스낵바 삭제
+            for (Post post : items) {   //모든 게시글의 selected 변수 초기화
+                post.setSelected(false);
+            }
         }
         else {
             // 마지막으로 뒤로 가기 버튼을 눌렀던 시간에 2.5초를 더해 현재 시간과 비교 후

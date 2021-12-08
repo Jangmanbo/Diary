@@ -22,6 +22,7 @@ public class PostActivity extends AppCompatActivity {
         contents=findViewById(R.id.contentsTextView);
         btn=findViewById(R.id.button);
 
+        //인텐트 객체를 통해 Post 객제 가져옴
         Bundle bundle = getIntent().getExtras();
         final Post post = bundle.getParcelable("post");
 

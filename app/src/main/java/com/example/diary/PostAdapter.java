@@ -56,9 +56,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
     public ArrayList<Post> getDeleteItems() {
         ArrayList<Post> deleteItems = new ArrayList<> ();
-        for (Post post : items) {
-            if (post.getSelected()) {
-                deleteItems.add(post);
+        for (Post post : items) {       //모든 게시글 리스트 점검
+            if (post.getSelected()) {   //체크된 게시글이면
+                deleteItems.add(post);  //삭제할 게시글 리스트에 추가
             }
         }
         return deleteItems;
@@ -74,15 +74,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             date=itemView.findViewById(R.id.dateTextView);
             checkBox=itemView.findViewById(R.id.checkBox);
 
+            //게시글 클릭 시 이벤트
             itemView.setClickable(true);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int position=getBindingAdapterPosition();
-                    if (position!=RecyclerView.NO_POSITION) {
-                        Intent intent= new Intent(context, PostActivity.class);
-                        intent.putExtra("post", (Parcelable) items.get(position)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                    int position=getBindingAdapterPosition();   //어댑터 내 아이템의 위치
+                    if (position!=RecyclerView.NO_POSITION) {   //아이템을 클릭한 것인지 확인
+                        Intent intent= new Intent(context, PostActivity.class); //액티비티 전환을 위한 인텐트 객체 생성
+                        intent.putExtra("post", (Parcelable) items.get(position)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  //PostActivity에 게시글 정보 전달
+                        context.startActivity(intent);  //액티비티 전환
                     }
                 }
             });
@@ -92,12 +93,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     Log.e("PostAdapter", "onCheckChanged method");
-                    int position=getBindingAdapterPosition();
-                    if (checkBox.isChecked()) {
+                    int position=getBindingAdapterPosition();   //어댑터 내 아이템의 위치
+                    if (checkBox.isChecked()) { //체크되면 post 객체의 selected=true
                         Log.e("PostAdapter", title.getText()+" : checked");
                         items.get(position).setSelected(true);
                     }
-                    else {
+                    else {  //체크가 해제되면 post 객체의 selected=false
                         Log.e("PostAdapter", title.getText()+" : unchecked");
                         items.get(position).setSelected(false);
                     }
@@ -109,8 +110,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             title.setText(item.getTitle());
             contents.setText(item.getContents());
             date.setText(item.getDate());
-            if (deleteMode) checkBox.setVisibility(View.VISIBLE);
-            else checkBox.setVisibility(View.GONE);
+            if (deleteMode) checkBox.setVisibility(View.VISIBLE);   //삭제하기 모드면 체크박스 보이게
+            else {
+                checkBox.setVisibility(View.GONE);
+                checkBox.setChecked(false); //삭제하기 모드에서 나올 때 체크박스를 모두 해제해야 다음 삭제하기 모드 실행 시 모두 체크 해제되어있음
+            }
         }
     }
 }
