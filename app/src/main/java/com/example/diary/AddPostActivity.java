@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -27,11 +28,13 @@ public class AddPostActivity extends AppCompatActivity {
     SpeechRecognizer speechRecognizer;
     AppDatabase db;
     final int PERMISSION = 1;
+    boolean recording = false;  //녹음중인지 여부
 
     EditText title, contents;
     SeekBar moodSeekBar;
     ImageView faceImageView;
     Button addPostBtn;
+    TextView recordTextView;
     ImageButton recordBtn;
 
     @Override
@@ -58,6 +61,7 @@ public class AddPostActivity extends AppCompatActivity {
         contents=findViewById(R.id.contentsEditText);
         addPostBtn = findViewById(R.id.addPostBtn);
         recordBtn = findViewById(R.id.recordBtn);
+        recordTextView=findViewById(R.id.recordTextView);
         moodSeekBar=findViewById(R.id.moodSeekBar);
         faceImageView=findViewById(R.id.faceImageView);
 
@@ -98,10 +102,22 @@ public class AddPostActivity extends AppCompatActivity {
                     db.postDao().insert(new Post(title.getText().toString(), contents.getText().toString(), moodSeekBar.getProgress(), (new SimpleDateFormat("yyyy-MM-dd HH:mm")).format(new Date(System.currentTimeMillis()))));
                     finish();
                     break;
-                case R.id.recordBtn:    //녹음 시작
-                    speechRecognizer=SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
-                    speechRecognizer.setRecognitionListener(listener);
-                    speechRecognizer.startListening(intent);
+                case R.id.recordBtn:
+                    if (!recording) {   //녹음 시작
+                        recording = true;
+                        recordBtn.setImageResource(R.drawable.stop_record);
+                        recordTextView.setText("음성 녹음 중지");
+                        speechRecognizer=SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
+                        speechRecognizer.setRecognitionListener(listener);
+                        speechRecognizer.startListening(intent);
+                        Toast.makeText(getApplicationContext(), "지금부터 음성으로 기록합니다.", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        speechRecognizer.stopListening();
+                        recording = false;
+                        recordBtn.setImageResource(R.drawable.start_record);
+                        recordTextView.setText("음성 녹음 시작");
+                    }
                     break;
                 default:
                     break;
@@ -112,7 +128,7 @@ public class AddPostActivity extends AppCompatActivity {
     RecognitionListener listener = new RecognitionListener() {
         @Override
         public void onReadyForSpeech(Bundle bundle) {
-            Toast.makeText(getApplicationContext(), "지금부터 음성으로 기록합니다.", Toast.LENGTH_SHORT).show();
+
         }
 
         @Override
@@ -177,9 +193,13 @@ public class AddPostActivity extends AppCompatActivity {
         public void onResults(Bundle bundle) {
             // 말을 하면 ArrayList에 단어를 넣고 textView에 단어를 이어줍니다.
             ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+            String originText = contents.getText().toString();
+            String newText=" ";
             for (int i = 0; i < matches.size() ; i++) {
-                contents.setText(matches.get(i));
+                newText += matches.get(i);
             }
+            contents.setText(originText + newText);
+            speechRecognizer.startListening(intent);
         }
 
         @Override
