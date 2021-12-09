@@ -109,7 +109,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         public void setItem(Post item) {
             title.setText(item.getTitle());
             contents.setText(item.getContents());
-            date.setText(item.getDate());
+            date.setText(item.getYear() + "." + (item.getMonth() + 1) + "." + item.getDay());
             if (deleteMode) checkBox.setVisibility(View.VISIBLE);   //삭제하기 모드면 체크박스 보이게
             else {
                 checkBox.setVisibility(View.GONE);

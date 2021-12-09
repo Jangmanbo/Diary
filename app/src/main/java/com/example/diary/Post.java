@@ -14,14 +14,17 @@ public class Post implements Parcelable {
     //db에 저장 X
     @Ignore
     private boolean selected = false;
-    private String title, contents, date, reportingDate;
+    private String title, contents, reportingDate;
     private int mood;
+    private int year, month, day;
 
-    public Post(String title, String contents, int mood, String date, String reportingDate) {
+    public Post(String title, String contents, int mood, int year, int month, int day, String reportingDate) {
         this.title=title;
         this.contents=contents;
         this.mood=mood;
-        this.date=date;
+        this.year=year;
+        this.month=month;
+        this.day=day;
         this.reportingDate=reportingDate;
     }
 
@@ -59,8 +62,16 @@ public class Post implements Parcelable {
         return mood;
     }
 
-    public String getDate() {
-        return date;
+    public int getYear() {
+        return year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getDay() {
+        return day;
     }
 
     public String getReportingDate() {
@@ -85,8 +96,16 @@ public class Post implements Parcelable {
         this.mood = mood;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
     }
 
     public void setReportingDate(String reportingDate) {
@@ -104,7 +123,9 @@ public class Post implements Parcelable {
         parcel.writeString(title);
         parcel.writeString(contents);
         parcel.writeInt(mood);
-        parcel.writeString(date);
+        parcel.writeInt(year);
+        parcel.writeInt(month);
+        parcel.writeInt(day);
         parcel.writeString(reportingDate);
     }
 
@@ -113,7 +134,9 @@ public class Post implements Parcelable {
         title=parcel.readString();
         contents=parcel.readString();
         mood=parcel.readInt();
-        date=parcel.readString();
+        year=parcel.readInt();
+        month=parcel.readInt();
+        day=parcel.readInt();
         reportingDate=parcel.readString();
     }
 

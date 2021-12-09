@@ -18,7 +18,7 @@ public interface PostDao {
     @Delete
     void delete(Post post);
 
-    @Query("SELECT * FROM postTable ORDER BY date DESC")
+    @Query("SELECT * FROM postTable ORDER BY year DESC, month DESC, day DESC")
     List<Post> getAll();
 
     @Query("DELETE FROM postTable")

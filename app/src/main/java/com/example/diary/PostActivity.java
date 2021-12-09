@@ -79,12 +79,11 @@ public class PostActivity extends AppCompatActivity {
         title.setText(post.getTitle());
         contents.setText(post.getContents());
 
-        String date = post.getDate();
-        calenderTextView.setText(date);
         //date picker dialog 의 날짜
-        year = Integer.parseInt(date.substring(0, 4));
-        month = Integer.parseInt(date.substring(5, 7)) - 1;
-        day = Integer.parseInt(date.substring(8));
+        year = post.getYear();
+        month = post.getMonth();
+        day = post.getDay();
+        calenderTextView.setText(year + "." + (month + 1) + "." + day);
 
         //seekbar 세팅
         int mood=post.getMood();
@@ -147,7 +146,9 @@ public class PostActivity extends AppCompatActivity {
                     post.setTitle(title.getText().toString());
                     post.setContents(contents.getText().toString());
                     post.setMood(moodSeekBar.getProgress());
-                    post.setDate(year + "." + (month + 1) + "." + day);
+                    post.setYear(year);
+                    post.setMonth(month);
+                    post.setDay(day);
                     db.postDao().update(post);
                     break;
                 case R.id.calenderLayout:   //날짜 선택
