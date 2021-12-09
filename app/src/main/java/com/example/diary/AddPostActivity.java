@@ -128,12 +128,11 @@ public class AddPostActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.addPostBtn:   //db에 저장
-                    db.postDao().insert(new Post(title.getText().toString(), contents.getText().toString(), moodSeekBar.getProgress(), (new SimpleDateFormat("yyyy-MM-dd HH:mm")).format(new GregorianCalendar().getTime())));
+                    db.postDao().insert(new Post(title.getText().toString(), contents.getText().toString(), moodSeekBar.getProgress(), year + "." + (month + 1) + "." + day, (new SimpleDateFormat("yyyy-MM-dd HH:mm")).format(new GregorianCalendar().getTime())));
                     finish();
                     break;
                 case R.id.calenderLayout:   //날짜 선택
                     DatePickerDialog dialog = new DatePickerDialog(AddPostActivity.this, R.style.DatePickerTheme, callbackMethod, year, month, day);
-
                     dialog.show();
                     break;
                 //녹음 버튼

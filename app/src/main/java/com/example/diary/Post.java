@@ -14,14 +14,15 @@ public class Post implements Parcelable {
     //db에 저장 X
     @Ignore
     private boolean selected = false;
-    private String title, contents, date;
+    private String title, contents, date, reportingDate;
     private int mood;
 
-    public Post(String title, String contents, int mood, String date) {
+    public Post(String title, String contents, int mood, String date, String reportingDate) {
         this.title=title;
         this.contents=contents;
         this.mood=mood;
         this.date=date;
+        this.reportingDate=reportingDate;
     }
 
     public Post(Parcel parcel) {
@@ -62,6 +63,10 @@ public class Post implements Parcelable {
         return date;
     }
 
+    public String getReportingDate() {
+        return reportingDate;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -84,6 +89,10 @@ public class Post implements Parcelable {
         this.date = date;
     }
 
+    public void setReportingDate(String reportingDate) {
+        this.reportingDate = reportingDate;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -96,6 +105,7 @@ public class Post implements Parcelable {
         parcel.writeString(contents);
         parcel.writeInt(mood);
         parcel.writeString(date);
+        parcel.writeString(reportingDate);
     }
 
     private void readFromParcel(Parcel parcel) {
@@ -104,6 +114,7 @@ public class Post implements Parcelable {
         contents=parcel.readString();
         mood=parcel.readInt();
         date=parcel.readString();
+        reportingDate=parcel.readString();
     }
 
     public class PostCreator implements Parcelable.Creator<Post> {
