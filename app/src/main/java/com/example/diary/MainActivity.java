@@ -2,6 +2,7 @@ package com.example.diary;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         adapter=new PostAdapter(getApplicationContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1));  //아이템 사이 구분선 넣기
 
         //글쓰기 화면으로 전환
         btn.setOnClickListener(new View.OnClickListener() {
