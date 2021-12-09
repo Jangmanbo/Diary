@@ -21,6 +21,9 @@ public interface PostDao {
     @Query("SELECT * FROM postTable ORDER BY year DESC, month DESC, day DESC")
     List<Post> getAll();
 
+    @Query("SELECT * FROM postTable WHERE year = :year and month = :month ORDER BY day")
+    List<Post> getMonthPeriod(int year, int month);
+
     @Query("DELETE FROM postTable")
     void deleteAll();
 }

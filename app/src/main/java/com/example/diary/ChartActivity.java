@@ -26,6 +26,10 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class ChartActivity extends AppCompatActivity {
+    AppDatabase db;
+    List<Post> items;       //해당 기간의 게시글 데이터
+    List<Entry> entries;    //차트에 나타내기 위해 가공한 데이터
+
     LineChart lineChart;
     ImageButton calenderBtn;
     TextView calenderTextView;
@@ -38,6 +42,7 @@ public class ChartActivity extends AppCompatActivity {
 
         calenderBtn=findViewById(R.id.calenderBtn);
         calenderTextView=findViewById(R.id.calenderTextView);
+        lineChart = (LineChart)findViewById(R.id.chart);
 
         //현재 날짜 받아오기
         Calendar cal = new GregorianCalendar();
@@ -48,15 +53,14 @@ public class ChartActivity extends AppCompatActivity {
         //클릭 리스너 등록
         calenderBtn.setOnClickListener(click);
 
-        //샘플 차트
-        lineChart = (LineChart)findViewById(R.id.chart);
-        List<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(1, 1));
-        entries.add(new Entry(2, 2));
-        entries.add(new Entry(3, 0));
-        entries.add(new Entry(4, 4));
-        entries.add(new Entry(5, 3));
-        entries.add(new Entry(7, 10));
+
+        db = AppDatabase.getInstance(this);
+
+        items = db.postDao().getMonthPeriod(year, month);
+        entries = new ArrayList<>();
+        for (Post post : items) {
+            entries.add(new Entry(post.getDay(), post.getMood()));
+        }
 
         LineDataSet lineDataSet = new LineDataSet(entries, "기분");
         lineDataSet.setLineWidth(2);
@@ -76,9 +80,9 @@ public class ChartActivity extends AppCompatActivity {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextColor(Color.BLACK);
         xAxis.enableGridDashedLine(8, 24, 0);
-        xAxis.setLabelCount(7, true);
+        xAxis.setLabelCount(31, true);
         xAxis.setAxisMinimum(1);
-        xAxis.setAxisMaximum(7);
+        xAxis.setAxisMaximum(31);
 
         YAxis yLAxis = lineChart.getAxisLeft();
         yLAxis.setTextColor(Color.BLACK);
