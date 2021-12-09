@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="20dp">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <NumberPicker
+            android:id="@+id/yearPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_margin="10dp"
+            >
+        </NumberPicker>
+
+        <NumberPicker
+            android:id="@+id/monthPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_margin="10dp"
+            >
+        </NumberPicker>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cancelBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:text="취소"
+            android:textAllCaps="false"
+            android:textColor="#6799FF" />
+
+        <Button
+            android:id="@+id/confirmBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:text="확인"
+            android:textAllCaps="false"
+            android:textColor="#6799FF" />
+
+    </LinearLayout>
+</LinearLayout>
