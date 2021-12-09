@@ -56,6 +56,10 @@ public class ChartActivity extends AppCompatActivity {
 
         db = AppDatabase.getInstance(this);
 
+        updateChart();
+    }
+
+    private void updateChart() {
         items = db.postDao().getMonthPeriod(year, month);
         entries = new ArrayList<>();
         for (Post post : items) {
@@ -121,8 +125,8 @@ public class ChartActivity extends AppCompatActivity {
         @Override
         public void onDateSet(DatePicker view, int y, int m, int d){
             year=y; month=m;
-            Log.e("chartactivity", String.valueOf(month));
             calenderTextView.setText(year + "." + (month + 1));
+            updateChart();
         }
     };
 }
