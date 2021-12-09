@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,16 +13,20 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class AddPostActivity extends AppCompatActivity {
     Intent intent;
@@ -34,8 +39,14 @@ public class AddPostActivity extends AppCompatActivity {
     SeekBar moodSeekBar;
     ImageView faceImageView;
     Button addPostBtn;
+
     TextView recordTextView;
     ImageButton recordBtn;
+
+    LinearLayout calenderLayout;
+    TextView calenderTextView;
+    DatePickerDialog.OnDateSetListener callbackMethod;
+    int year, month, day;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +63,26 @@ public class AddPostActivity extends AppCompatActivity {
         //감정
         moodSeekBar=findViewById(R.id.moodSeekBar);
         faceImageView=findViewById(R.id.faceImageView);
+
+        //달력
+        calenderLayout=findViewById(R.id.calenderLayout);
+        calenderTextView=findViewById(R.id.calenderTextView);
+
+        //현재 날짜 받아오기
+        Calendar cal = new GregorianCalendar();
+        year = cal.get(Calendar.YEAR);
+        month = cal.get(Calendar.MONTH);
+        day = cal.get(Calendar.DAY_OF_MONTH);
+        calenderTextView.setText(year + "." + (month + 1) + "." + day);
+
+        //날짜 선택하면 다시 세팅
+        callbackMethod = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int y, int m, int d) {
+                year = y; month = m; day = d;
+                calenderTextView.setText(year + "." + (month + 1) + "." + day);
+            }
+        };
 
         //녹음
         recordBtn = findViewById(R.id.recordBtn);
@@ -88,6 +119,7 @@ public class AddPostActivity extends AppCompatActivity {
 
         //버튼 클릭 이벤트 리스터 등록
         addPostBtn.setOnClickListener(click);
+        calenderLayout.setOnClickListener(click);
         recordBtn.setOnClickListener(click);
     }
 
@@ -96,8 +128,12 @@ public class AddPostActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.addPostBtn:   //db에 저장
-                    db.postDao().insert(new Post(title.getText().toString(), contents.getText().toString(), moodSeekBar.getProgress(), (new SimpleDateFormat("yyyy-MM-dd HH:mm")).format(new Date(System.currentTimeMillis()))));
+                    db.postDao().insert(new Post(title.getText().toString(), contents.getText().toString(), moodSeekBar.getProgress(), (new SimpleDateFormat("yyyy-MM-dd HH:mm")).format(new GregorianCalendar().getTime())));
                     finish();
+                    break;
+                case R.id.calenderLayout:   //날짜 선택
+                    DatePickerDialog dialog = new DatePickerDialog(AddPostActivity.this, callbackMethod, year, month, day);
+                    dialog.show();
                     break;
                 //녹음 버튼
                 case R.id.recordBtn:
