@@ -2,6 +2,7 @@ package com.example.diary;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     long backKeyPressedTime = 0;
     Toast toast;
     Snackbar snackbar;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
         btn = findViewById(R.id.floatingActionButton);
         recyclerView = findViewById(R.id.recyclerView);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         adapter=new PostAdapter(getApplicationContext());
         recyclerView.setAdapter(adapter);
