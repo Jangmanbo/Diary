@@ -70,11 +70,11 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1));  //아이템 사이 구분선 넣기
 
-        //글쓰기 화면으로 전환
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AddPostActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ChartActivity.class);
                 startActivity(intent);
             }
         });
@@ -99,6 +99,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.add:  //글쓰기 클릭 -> 글쓰기 화면으로 전환
+                Intent intent = new Intent(getApplicationContext(), AddPostActivity.class);
+                startActivity(intent);
+                break;
             case R.id.delete: //삭제하기 클릭 -> 게시글마다 체크박스 보이게
                 deleteMode = true;
                 adapter.setDeleteMode(true);

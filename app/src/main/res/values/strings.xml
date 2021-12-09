@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Diary</string>
-    <string name="add_post">게시글 추가</string>
+    <string name="chart">차트 보기</string>
 </resources>

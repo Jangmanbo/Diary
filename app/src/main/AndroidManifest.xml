@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.diary">
-
-    <!--STT 기능-->
+    <!-- STT 기능 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <queries>
         <intent>
             <action android:name="android.speech.RecognitionService" />
@@ -18,7 +18,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PostActivity"></activity>
+        <activity
+            android:name=".ChartActivity"
+            android:exported="false" />
+        <activity android:name=".PostActivity" />
         <activity android:name=".AddPostActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

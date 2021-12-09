@@ -27,8 +27,8 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:clickable="true"
-            android:contentDescription="@string/add_post"
-            android:src="@drawable/pencil"
+            android:contentDescription="@string/chart"
+            android:src="@drawable/chart"
             app:backgroundTint="#535353" />
 
         <androidx.recyclerview.widget.RecyclerView
