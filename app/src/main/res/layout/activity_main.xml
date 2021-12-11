@@ -29,7 +29,7 @@
             android:clickable="true"
             android:contentDescription="@string/chart"
             android:src="@drawable/chart"
-            app:backgroundTint="#535353" />
+            app:backgroundTint="@color/colorAccent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

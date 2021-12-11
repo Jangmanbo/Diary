@@ -124,5 +124,9 @@
         android:id="@+id/addPostBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="등록" />
+        android:background="@color/colorAccent"
+        android:text="등록"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        tools:ignore="TextContrastCheck" />
 </LinearLayout>

@@ -123,5 +123,9 @@
         android:id="@+id/modifyPostBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="수정" />
+        android:background="@color/colorAccent"
+        android:text="수정"
+        android:textColor="#FDFDFD"
+        android:textSize="20sp"
+        tools:ignore="TextContrastCheck" />
 </LinearLayout>
