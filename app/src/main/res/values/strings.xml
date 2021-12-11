@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Diary</string>
+    <string name="app_name">감정 일기</string>
     <string name="chart">차트 보기</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
