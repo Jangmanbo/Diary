@@ -43,6 +43,8 @@ public class ChartActivity extends AppCompatActivity {
         calenderBtn=findViewById(R.id.calenderBtn);
         calenderTextView=findViewById(R.id.calenderTextView);
         lineChart = (LineChart)findViewById(R.id.chart);
+        lineChart.setNoDataText("해당 기간에 작성한 일기가 없습니다.");
+        lineChart.setNoDataTextColor(Color.BLUE);
 
         //현재 날짜 받아오기
         Calendar cal = new GregorianCalendar();
