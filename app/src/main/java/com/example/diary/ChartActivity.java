@@ -1,6 +1,8 @@
 package com.example.diary;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
 import android.graphics.Color;
@@ -30,6 +32,7 @@ public class ChartActivity extends AppCompatActivity {
     List<Post> items;       //해당 기간의 게시글 데이터
     List<Entry> entries;    //차트에 나타내기 위해 가공한 데이터
 
+    Toolbar toolbar;
     LineChart lineChart;
     ImageButton calenderBtn;
     TextView calenderTextView;
@@ -40,9 +43,15 @@ public class ChartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart);
 
+        toolbar=findViewById(R.id.chart_toolbar);
         calenderBtn=findViewById(R.id.calenderBtn);
         calenderTextView=findViewById(R.id.calenderTextView);
         lineChart = (LineChart)findViewById(R.id.chart);
+
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);  //뒤로가기 버튼
+
         lineChart.setNoDataText("해당 기간에 작성한 일기가 없습니다.");
         lineChart.setNoDataTextColor(Color.BLUE);
 

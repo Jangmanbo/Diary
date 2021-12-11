@@ -20,7 +20,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ChartActivity"
-            android:exported="false" />
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".PostActivity" />
         <activity android:name=".AddPostActivity" />
         <activity android:name=".MainActivity">
