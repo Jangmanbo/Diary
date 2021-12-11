@@ -78,7 +78,12 @@ public class ChartActivity extends AppCompatActivity {
         lineDataSet.setDrawHighlightIndicators(false);
         lineDataSet.setDrawValues(false);
         LineData lineData = new LineData(lineDataSet);
-        lineChart.setData(lineData);
+
+        //해당 기간에 데이터가 없으면 그래프를 나타내지 않음
+        if (items.isEmpty())
+            lineChart.clear();
+        else
+            lineChart.setData(lineData);
 
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
