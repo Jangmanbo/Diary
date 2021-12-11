@@ -152,7 +152,7 @@ public class PostActivity extends AppCompatActivity {
                     db.postDao().update(post);
                     break;
                 case R.id.calenderLayout:   //날짜 선택
-                    DatePickerDialog dialog = new DatePickerDialog(PostActivity.this, R.style.DatePickerTheme, callbackMethod, year, month, day);
+                    DatePickerDialog dialog = new DatePickerDialog(PostActivity.this, callbackMethod, year, month, day);
                     dialog.show();
                     break;
                 //녹음 버튼

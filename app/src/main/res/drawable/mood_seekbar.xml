@@ -18,7 +18,7 @@
                 android:layout_height="10dp"
                 android:shape="rectangle">
                 <corners android:radius="10dp"/>
-                <solid android:color="#6799FF" />
+                <solid android:color="@color/colorAccent" />
                 <stroke android:color="#fff" android:width="4dp"/>
             </shape>
         </clip>

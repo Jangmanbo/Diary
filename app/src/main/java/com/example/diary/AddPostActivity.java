@@ -132,7 +132,7 @@ public class AddPostActivity extends AppCompatActivity {
                     finish();
                     break;
                 case R.id.calenderLayout:   //날짜 선택
-                    DatePickerDialog dialog = new DatePickerDialog(AddPostActivity.this, R.style.DatePickerTheme, callbackMethod, year, month, day);
+                    DatePickerDialog dialog = new DatePickerDialog(AddPostActivity.this, callbackMethod, year, month, day);
                     dialog.show();
                     break;
                 //녹음 버튼
