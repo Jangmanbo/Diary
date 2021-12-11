@@ -50,6 +50,7 @@ public class ChartActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("월별 기분 차트");  //액션바 제목설정
         actionBar.setDisplayHomeAsUpEnabled(true);  //뒤로가기 버튼
 
         lineChart.setNoDataText("해당 기간에 작성한 일기가 없습니다.");
