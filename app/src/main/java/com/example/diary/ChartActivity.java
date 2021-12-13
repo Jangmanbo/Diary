@@ -36,6 +36,7 @@ public class ChartActivity extends AppCompatActivity {
     Toolbar toolbar;
     LineChart lineChart;
     LinearLayout calenderLayout;
+    ImageButton leftArrowBtn, rightArrowBtn;
     TextView calenderTextView;
     int year, month;
 
@@ -46,6 +47,8 @@ public class ChartActivity extends AppCompatActivity {
 
         toolbar=findViewById(R.id.chart_toolbar);
         calenderLayout=findViewById(R.id.calenderLayout);
+        leftArrowBtn=findViewById(R.id.leftArrowBtn);
+        rightArrowBtn=findViewById(R.id.rightArrowBtn);
         calenderTextView=findViewById(R.id.calenderTextView);
         lineChart = (LineChart)findViewById(R.id.chart);
 
@@ -65,7 +68,8 @@ public class ChartActivity extends AppCompatActivity {
 
         //클릭 리스너 등록
         calenderLayout.setOnClickListener(click);
-
+        leftArrowBtn.setOnClickListener(click);
+        rightArrowBtn.setOnClickListener(click);
 
         db = AppDatabase.getInstance(this);
 
@@ -134,6 +138,26 @@ public class ChartActivity extends AppCompatActivity {
                     dialog.setListener(callbackMethod);
                     dialog.setDate(year, month);
                     dialog.show(getSupportFragmentManager(), "YearMonthPicker");
+                    break;
+                case R.id.leftArrowBtn:
+                    if (month == 0) {   //1월이면
+                        year--; month = 11;
+                    }
+                    else {  //2-12월이면
+                        month--;
+                    }
+                    calenderTextView.setText(year + "." + (month + 1));
+                    updateChart();
+                    break;
+                case R.id.rightArrowBtn:
+                    if (month == 11) {//12월이면
+                        year++; month = 0;
+                    }
+                    else {  //1-11월이면
+                        month++;
+                    }
+                    calenderTextView.setText(year + "." + (month + 1));
+                    updateChart();
                     break;
             }
         }
