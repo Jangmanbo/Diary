@@ -34,23 +34,30 @@
             app:srcCompat="@drawable/left_arrow"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
-        <TextView
-            android:id="@+id/calenderTextView"
+        <LinearLayout
+            android:id="@+id/calenderLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="20XX.XX"
-            android:textSize="24sp" />
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/calenderBtn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:background="@null"
-            android:contentDescription="달력"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/calender"
-            tools:ignore="TouchTargetSizeCheck" />
+            <TextView
+                android:id="@+id/calenderTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20XX.XX"
+                android:textSize="24sp" />
+
+            <ImageButton
+                android:id="@+id/calenderBtn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:background="@null"
+                android:contentDescription="달력"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/calender"
+                tools:ignore="TouchTargetSizeCheck" />
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/rightArrowBtn"

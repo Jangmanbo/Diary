@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -34,7 +35,7 @@ public class ChartActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     LineChart lineChart;
-    ImageButton calenderBtn;
+    LinearLayout calenderLayout;
     TextView calenderTextView;
     int year, month;
 
@@ -44,7 +45,7 @@ public class ChartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chart);
 
         toolbar=findViewById(R.id.chart_toolbar);
-        calenderBtn=findViewById(R.id.calenderBtn);
+        calenderLayout=findViewById(R.id.calenderLayout);
         calenderTextView=findViewById(R.id.calenderTextView);
         lineChart = (LineChart)findViewById(R.id.chart);
 
@@ -63,7 +64,7 @@ public class ChartActivity extends AppCompatActivity {
         calenderTextView.setText(year + "." + (month + 1));
 
         //클릭 리스너 등록
-        calenderBtn.setOnClickListener(click);
+        calenderLayout.setOnClickListener(click);
 
 
         db = AppDatabase.getInstance(this);
@@ -128,7 +129,7 @@ public class ChartActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.calenderBtn:
+                case R.id.calenderLayout:
                     YearMonthPickerDialog dialog = new YearMonthPickerDialog();
                     dialog.setListener(callbackMethod);
                     dialog.setDate(year, month);
