@@ -150,6 +150,7 @@ public class PostActivity extends AppCompatActivity {
                     post.setMonth(month);
                     post.setDay(day);
                     db.postDao().update(post);
+                    finish();   //이전 화면(MainActivity)로 돌아가기
                     break;
                 case R.id.calenderLayout:   //날짜 선택
                     DatePickerDialog dialog = new DatePickerDialog(PostActivity.this, callbackMethod, year, month, day);
