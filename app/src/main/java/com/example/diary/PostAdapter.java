@@ -26,6 +26,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         this.context=context;
     }
 
+    //뷰홀더 객체 생성
     @NonNull
     @Override
     public PostAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,20 +36,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         return new ViewHolder(view);
     }
 
+    //이미 생성된 뷰홀더를 재활용, 데이터를 아이템뷰에 바인딩
     @Override
     public void onBindViewHolder(@NonNull PostAdapter.ViewHolder holder, int position) {
         holder.setItem(items.get(position));
     }
 
+    //리사이클러뷰 갱신
     public void setItems(List<Post> items) {
         this.items=items;
         notifyDataSetChanged();
     }
 
+    //삭제하기 모드 세팅
     public void setDeleteMode(boolean deleteMode) {
         this.deleteMode = deleteMode;
     }
 
+    //아이템 개수 리턴
     @Override
     public int getItemCount() {
         return items.size();
@@ -64,6 +69,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         return deleteItems;
     }
 
+    //각 아이템뷰를 뷰홀더 객체에 저장
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, contents, date;
         CheckBox checkBox;
@@ -74,7 +80,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             date=itemView.findViewById(R.id.dateTextView);
             checkBox=itemView.findViewById(R.id.checkBox);
 
-            //게시글 클릭 시 이벤트
+            //게시글 클릭 시 이벤트 리스너
             itemView.setClickable(true);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -82,7 +88,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                     int position=getBindingAdapterPosition();   //어댑터 내 아이템의 위치
                     if (position!=RecyclerView.NO_POSITION) {   //아이템을 클릭한 것인지 확인
                         Intent intent= new Intent(context, PostActivity.class); //액티비티 전환을 위한 인텐트 객체 생성
-                        intent.putExtra("post", (Parcelable) items.get(position)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  //PostActivity에 게시글 정보 전달
+                        intent.putExtra("post", (Parcelable) items.get(position)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  //PostActivity에 일기 정보 전달
                         context.startActivity(intent);  //액티비티 전환
                     }
                 }
