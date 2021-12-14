@@ -45,8 +45,9 @@ public class AddPostActivity extends AppCompatActivity {
 
     LinearLayout calenderLayout;
     TextView calenderTextView;
-    DatePickerDialog.OnDateSetListener callbackMethod;
-    int year, month, day;
+
+    DatePickerDialog.OnDateSetListener callbackMethod;  //날짜 선택 이벤트 리스너
+    int year, month, day;   //일기 날짜
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +116,7 @@ public class AddPostActivity extends AppCompatActivity {
         //녹음하기 위해 intent 객체 생성
         intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getPackageName());
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");   //한국어
 
         //버튼 클릭 이벤트 리스터 등록
         addPostBtn.setOnClickListener(click);
@@ -127,7 +128,7 @@ public class AddPostActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.addPostBtn:   //db에 저장
+                case R.id.addPostBtn:   //등록 -> db에 저장
                     db.postDao().insert(new Post(title.getText().toString(), contents.getText().toString(), moodSeekBar.getProgress(), year, month, day, (new SimpleDateFormat("yyyy-MM-dd HH:mm")).format(new GregorianCalendar().getTime())));
                     finish();
                     break;
@@ -220,17 +221,19 @@ public class AddPostActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "에러가 발생하였습니다. : " + message, Toast.LENGTH_SHORT).show();
         }
 
+        //사용자가 말을 잠시 쉬면 호출
         @Override
         public void onResults(Bundle bundle) {
-            // 말을 하면 ArrayList에 단어를 넣고 textView에 단어를 이어줍니다.
+            // 말을 하면 ArrayList에 단어를 넣고 기존의 text에 이어붙임
             ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-            String originText = contents.getText().toString();
-            String newText=" ";
+            String originText = contents.getText().toString();  //기존 text
+            //녹음한 말
+            String newText="";
             for (int i = 0; i < matches.size() ; i++) {
                 newText += matches.get(i);
             }
-            contents.setText(originText + newText);
-            speechRecognizer.startListening(intent);
+            contents.setText(originText + newText + " ");
+            speechRecognizer.startListening(intent);    //녹음버튼을 누를 때까지 계속 녹음해야 하므로 녹음 재개
         }
 
         @Override
@@ -244,8 +247,10 @@ public class AddPostActivity extends AppCompatActivity {
         }
     };
 
+    //녹음 시작
     void StartRecord() {
         recording = true;
+        //마이크 이미지와 텍스트 변경
         recordBtn.setImageResource(R.drawable.stop_record);
         recordTextView.setText("음성 녹음 중지");
         speechRecognizer=SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
@@ -253,11 +258,13 @@ public class AddPostActivity extends AppCompatActivity {
         speechRecognizer.startListening(intent);
     }
 
+    //녹음 중지
     void StopRecord() {
         recording = false;
+        //마이크 이미지와 텍스트 변경
         recordBtn.setImageResource(R.drawable.start_record);
         recordTextView.setText("음성 녹음 시작");
-        speechRecognizer.stopListening();
+        speechRecognizer.stopListening();   //녹음 중지
         Toast.makeText(getApplicationContext(), "음성 기록을 중지합니다.", Toast.LENGTH_SHORT).show();
     }
 
