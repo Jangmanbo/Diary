@@ -44,8 +44,9 @@ public class PostActivity extends AppCompatActivity {
 
     LinearLayout calenderLayout;
     TextView calenderTextView;
-    DatePickerDialog.OnDateSetListener callbackMethod;
-    int year, month, day;
+
+    DatePickerDialog.OnDateSetListener callbackMethod;  //날짜 선택 이벤트 리스너
+    int year, month, day;   //일기 날짜
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,12 +116,12 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
-        //날짜 선택하면 다시 세팅
+        //날짜 선택 이벤트 리스너
         callbackMethod = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int y, int m, int d) {
-                year = y; month = m; day = d;
-                calenderTextView.setText(year + "." + (month + 1) + "." + day);
+                year = y; month = m; day = d;   //일기 날짜 업데이트
+                calenderTextView.setText(year + "." + (month + 1) + "." + day); //날짜 텍스트 업데이트
             }
         };
 
@@ -131,7 +132,7 @@ public class PostActivity extends AppCompatActivity {
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getPackageName());
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");
 
-        //버튼 클릭 이벤트 리스터 등록
+        //버튼 클릭 이벤트 리스너 등록
         modifyPostBtn.setOnClickListener(click);
         calenderLayout.setOnClickListener(click);
         recordBtn.setOnClickListener(click);
@@ -142,14 +143,14 @@ public class PostActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 //수정 버튼
-                case R.id.modifyPostBtn:   //db에 update
+                case R.id.modifyPostBtn:   //수정 -> db에 update
                     post.setTitle(title.getText().toString());
                     post.setContents(contents.getText().toString());
                     post.setMood(moodSeekBar.getProgress());
                     post.setYear(year);
                     post.setMonth(month);
                     post.setDay(day);
-                    db.postDao().update(post);
+                    db.postDao().update(post);  //db에 update
                     finish();   //이전 화면(MainActivity)로 돌아가기
                     break;
                 case R.id.calenderLayout:   //날짜 선택
@@ -243,15 +244,16 @@ public class PostActivity extends AppCompatActivity {
 
         @Override
         public void onResults(Bundle bundle) {
-            // 말을 하면 ArrayList에 단어를 넣고 textView에 단어를 이어줍니다.
+            // 말을 하면 ArrayList에 단어를 넣고 기존의 text에 이어붙임
             ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-            String originText = contents.getText().toString();
-            String newText=" ";
+            String originText = contents.getText().toString();  //기존 text
+            //녹음한 말
+            String newText="";
             for (int i = 0; i < matches.size() ; i++) {
                 newText += matches.get(i);
             }
-            contents.setText(originText + newText);
-            speechRecognizer.startListening(intent);
+            contents.setText(originText + newText + " ");
+            speechRecognizer.startListening(intent);    //녹음버튼을 누를 때까지 계속 녹음해야 하므로 녹음 재개
         }
 
         @Override
@@ -265,8 +267,10 @@ public class PostActivity extends AppCompatActivity {
         }
     };
 
+    //녹음 시작
     void StartRecord() {
         recording = true;
+        //마이크 이미지와 텍스트 변경
         recordBtn.setImageResource(R.drawable.stop_record);
         recordTextView.setText("음성 녹음 중지");
         speechRecognizer=SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
@@ -274,11 +278,13 @@ public class PostActivity extends AppCompatActivity {
         speechRecognizer.startListening(intent);
     }
 
+    //녹음 중지
     void StopRecord() {
         recording = false;
+        //마이크 이미지와 텍스트 변경
         recordBtn.setImageResource(R.drawable.start_record);
         recordTextView.setText("음성 녹음 시작");
-        speechRecognizer.stopListening();
+        speechRecognizer.stopListening();   //녹음 중지
         Toast.makeText(getApplicationContext(), "음성 기록을 중지합니다.", Toast.LENGTH_SHORT).show();
     }
 
