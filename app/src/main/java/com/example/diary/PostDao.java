@@ -18,9 +18,11 @@ public interface PostDao {
     @Delete
     void delete(Post post);
 
+    //모든 데이터 리턴
     @Query("SELECT * FROM postTable ORDER BY year DESC, month DESC, day DESC")
     List<Post> getAll();
 
+    //파라미터로 받은 년도, 월에 해당하는 데이터 리턴
     @Query("SELECT * FROM postTable WHERE year = :year and month = :month ORDER BY day")
     List<Post> getMonthPeriod(int year, int month);
 
