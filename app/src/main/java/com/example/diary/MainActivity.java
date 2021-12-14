@@ -26,13 +26,16 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     AppDatabase db;
+
     RecyclerView recyclerView;
     PostAdapter adapter;
     FloatingActionButton btn;
+
     List<Post> items;
     boolean deleteMode = false;
     long backKeyPressedTime = 0;
     Toast toast;
+
     Snackbar snackbar;
     Toolbar toolbar;
 
@@ -50,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
                         // 스낵바의 삭제 클릭시 실행할 작업
                         hideCheckBox(); //체크박스 숨기기
                         db= AppDatabase.getInstance(getApplicationContext());
-                        ArrayList<Post> deleteItems = adapter.getDeleteItems();
+                        ArrayList<Post> deleteItems = adapter.getDeleteItems(); //체크 표시된 일기 리스트
+                        //db에서 데이터 삭제
                         for (Post post : deleteItems) {
                             db.postDao().delete(post);
                         }
@@ -63,17 +67,20 @@ public class MainActivity extends AppCompatActivity {
         btn = findViewById(R.id.floatingActionButton);
         recyclerView = findViewById(R.id.recyclerView);
         toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
+        setSupportActionBar(toolbar);   //액션바 설정
+
+        //리사이클러뷰
         adapter=new PostAdapter(getApplicationContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1));  //아이템 사이 구분선 넣기
 
-
+        //차트 버튼 클릭 이벤트 리스너
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //ChartActivity 실행
                 Intent intent = new Intent(getApplicationContext(), ChartActivity.class);
                 startActivity(intent);
             }
@@ -89,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.setItems(items);
     }
 
+    //메뉴 생성
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater=getMenuInflater();
@@ -106,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.delete: //삭제하기 클릭 -> 게시글마다 체크박스 보이게
                 deleteMode = true;
                 adapter.setDeleteMode(true);
-                adapter.notifyDataSetChanged();
-                snackbar.show();
+                adapter.notifyDataSetChanged(); //체크박스 보이도록 리사이클러뷰 갱신
+                snackbar.show();    //스낵바 보이게
                 break;
             default:
                 break;
@@ -146,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
     //게시글마다 체크박스 숨기기
     private void hideCheckBox() {
         adapter.setDeleteMode(false);
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged(); //체크박스 안 보이도록 리사이클러뷰 갱신
         deleteMode = false;
     }
 }
