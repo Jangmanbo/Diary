@@ -8,16 +8,17 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "postTable")
-public class Post implements Parcelable {
+public class Post implements Parcelable {   //다른 액티비티에 Post 객체를 넣어 보내기 위해 implements Parcelable
     @PrimaryKey(autoGenerate = true)
     private int id;
     //db에 저장 X
     @Ignore
-    private boolean selected = false;
+    private boolean selected = false;   //삭제하기 모드일 때 체크 여부
     private String title, contents, reportingDate;
     private int mood;
     private int year, month, day;
 
+    //외부에서 사용하는 생성자
     public Post(String title, String contents, int mood, int year, int month, int day, String reportingDate) {
         this.title=title;
         this.contents=contents;
@@ -28,6 +29,7 @@ public class Post implements Parcelable {
         this.reportingDate=reportingDate;
     }
 
+    //Parcel 로부터 데이터 read, 내부(CREATOR)에서 사용하는 생성자
     public Post(Parcel parcel) {
         readFromParcel(parcel);
     }
@@ -44,6 +46,7 @@ public class Post implements Parcelable {
         }
     };
 
+    //get
     public int getId() {
         return id;
     }
@@ -78,6 +81,7 @@ public class Post implements Parcelable {
         return reportingDate;
     }
 
+    //set
     public void setId(int id) {
         this.id = id;
     }
@@ -117,6 +121,7 @@ public class Post implements Parcelable {
         return 0;
     }
 
+    //Parcel 객체에 데이터 write
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
@@ -129,6 +134,7 @@ public class Post implements Parcelable {
         parcel.writeString(reportingDate);
     }
 
+    //Parcel 객체로부터 데이터 read
     private void readFromParcel(Parcel parcel) {
         id=parcel.readInt();
         title=parcel.readString();
