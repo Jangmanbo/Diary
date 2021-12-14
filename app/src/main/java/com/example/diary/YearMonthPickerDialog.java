@@ -21,6 +21,7 @@ public class YearMonthPickerDialog extends DialogFragment {
     private DatePickerDialog.OnDateSetListener listener;
     private int year, month;
 
+    NumberPicker monthPicker, yearPicker;
     Button confirmBtn;
     Button cancelBtn;
 
@@ -34,24 +35,14 @@ public class YearMonthPickerDialog extends DialogFragment {
         confirmBtn = dialog.findViewById(R.id.confirmBtn);
         cancelBtn = dialog.findViewById(R.id.cancelBtn);
 
-        final NumberPicker monthPicker = (NumberPicker) dialog.findViewById(R.id.monthPicker);
-        final NumberPicker yearPicker = (NumberPicker) dialog.findViewById(R.id.yearPicker);
+        monthPicker = (NumberPicker) dialog.findViewById(R.id.monthPicker);
+        yearPicker = (NumberPicker) dialog.findViewById(R.id.yearPicker);
 
-        cancelBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                YearMonthPickerDialog.this.getDialog().cancel();
-            }
-        });
+        //버튼 클릭 리스너 등록
+        cancelBtn.setOnClickListener(click);
+        confirmBtn.setOnClickListener(click);
 
-        confirmBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                listener.onDateSet(null, yearPicker.getValue(), monthPicker.getValue() - 1, 0);
-                YearMonthPickerDialog.this.getDialog().cancel();
-            }
-        });
-
+        //최소, 최대값과 초기값 세팅
         monthPicker.setMinValue(1);
         monthPicker.setMaxValue(12);
         monthPicker.setValue(month + 1);
@@ -60,30 +51,33 @@ public class YearMonthPickerDialog extends DialogFragment {
         yearPicker.setMaxValue(MAX_YEAR);
         yearPicker.setValue(year);
 
-        builder.setView(dialog)
-        // Add action buttons
-        /*
-        .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                listener.onDateSet(null, yearPicker.getValue(), monthPicker.getValue(), 0);
-            }
-        })
-        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                MyYearMonthPickerDialog.this.getDialog().cancel();
-            }
-        })
-        */
-        ;
+        builder.setView(dialog);
 
         return builder.create();
     }
 
+    //버튼 클릭 리스너
+    View.OnClickListener click = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.cancelBtn:    //취소 클릭 -> 변화 없음
+                    YearMonthPickerDialog.this.getDialog().cancel();
+                    break;
+                case R.id.confirmBtn:   //확인 클릭 -> 선택한 날짜 ChartActivity 에게 전달
+                    listener.onDateSet(null, yearPicker.getValue(), monthPicker.getValue() - 1, 0);
+                    YearMonthPickerDialog.this.getDialog().cancel();
+                    break;
+            }
+        }
+    };
+
+    //리스너 등록
     public void setListener(DatePickerDialog.OnDateSetListener listener) {
         this.listener = listener;
     }
 
+    //ChartActivity 가 dialog 의 년도, 월 설정
     public void setDate(int year, int month) {
         this.year=year;
         this.month=month;
