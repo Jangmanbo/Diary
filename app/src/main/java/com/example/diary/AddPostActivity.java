@@ -2,10 +2,12 @@ package com.example.diary;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -160,7 +162,7 @@ public class AddPostActivity extends AppCompatActivity {
 
         @Override
         public void onBeginningOfSpeech() {
-
+            //사용자가 말하기 시작
         }
 
         @Override
@@ -175,7 +177,8 @@ public class AddPostActivity extends AppCompatActivity {
 
         @Override
         public void onEndOfSpeech() {
-
+            //사용자가 말을 멈추면 호출
+            //인식 결과에 따라 onError나 onResults가 호출됨
         }
 
         @Override
@@ -221,18 +224,19 @@ public class AddPostActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "에러가 발생하였습니다. : " + message, Toast.LENGTH_SHORT).show();
         }
 
-        //사용자가 말을 잠시 쉬면 호출
+        //인식 결과가 준비되면 호출
         @Override
         public void onResults(Bundle bundle) {
-            // 말을 하면 ArrayList에 단어를 넣고 기존의 text에 이어붙임
-            ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+            ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);    //인식 결과를 담은 ArrayList
             String originText = contents.getText().toString();  //기존 text
-            //녹음한 말
+
+            //인식 결과
             String newText="";
             for (int i = 0; i < matches.size() ; i++) {
                 newText += matches.get(i);
             }
-            contents.setText(originText + newText + " ");
+
+            contents.setText(originText + newText + " ");   //기존의 text에 인식 결과를 이어붙임
             speechRecognizer.startListening(intent);    //녹음버튼을 누를 때까지 계속 녹음해야 하므로 녹음 재개
         }
 
@@ -270,10 +274,15 @@ public class AddPostActivity extends AppCompatActivity {
 
     // 퍼미션 체크
     void CheckPermission() {
+        //안드로이드 버전이 6.0 이상
         if ( Build.VERSION.SDK_INT >= 23 ){
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.INTERNET,
-                            Manifest.permission.RECORD_AUDIO},PERMISSION);
+            //인터넷이나 녹음 권한이 없으면 권한 요청
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_DENIED
+                    || ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED ) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.INTERNET,
+                                Manifest.permission.RECORD_AUDIO},PERMISSION);
+            }
         }
     }
 }
